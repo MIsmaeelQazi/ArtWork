@@ -1,5 +1,5 @@
 const DaQazi = document.getElementById("CanvasWorthyOfMe")
-const DaBrush = DaQazi.getContext("2D")
+const DaBrush = DaQazi.getContext("2d")
 
 function CanvasSize(){
     DaQazi.width = window.innerWidth;
@@ -11,7 +11,7 @@ window.addEventListener("resize", CanvasSize);
 
 function background() {
     DaBrush.fillStyle = "black";
-    DaBrush.fillRect(10, 10, DaQazi.width, DaQazi.height);
+    DaBrush.fillRect(0, 0, DaQazi.width, DaQazi.height);
 }
 
 
