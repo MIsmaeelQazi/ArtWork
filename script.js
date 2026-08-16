@@ -19,7 +19,7 @@ const distance = 120;
 
 const allStars = []
 for (let _ = 0; _ < stars; _++){
-    stars.push({
+    allStars.push({
         x : Math.random() * DaQazi.width,
         y : Math.random() * DaQazi.height,
         vx: (Math.random() - 0.5) * 0.3,
@@ -31,7 +31,7 @@ for (let _ = 0; _ < stars; _++){
 let t = 0;
 
 function Stars(){
-    for (const star of stars){
+    for (const star of allStars){
         star.x += star.vx;
         star.y += star.vy;
 
@@ -48,14 +48,14 @@ function Stars(){
     }
 
     for (let _ = 0; _ < star.length;_++){
-        for(let i= _ + 1; i< stars.length; i ++){
-            const dx = stars[_].x - stars[i].x;
-            const dy = stars[_].y - stars[i].y;
+        for(let i= _ + 1; i< allStars.length; i ++){
+            const dx = allStars[_].x - allStars[i].x;
+            const dy = allStars[_].y - allStars[i].y;
             const dist = Math.sqrt(dx * dx + dy * dy);
             if (dist < distance){
                 DaBrush.beginPath();
-                DaBrush.moveTo(stars[_].x, stars[_].y);
-                DaBrush.lineTo(stars[i].x, stars[i].y);
+                DaBrush.moveTo(allStars[_].x, allStars[_].y);
+                DaBrush.lineTo(allStars[i].x, allStars[i].y);
                 DaBrush.strokeStyle = 'rgba(180, 200, 255, ${1 - dist /distance})';
                 DaBrush.lineWidth = 0.5;
                 DaBrush.stroke();
