@@ -68,7 +68,6 @@ function Stars(){
 
 
 
-background();
 Stars();
 
 
