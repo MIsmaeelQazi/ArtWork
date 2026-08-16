@@ -29,22 +29,24 @@ for (let _ = 0; _ < stars; _++){
 let t = 0;
 
 function Stars(){
+    t += 0.02;
 
-    DaBrush.fillstyle = "#05070f";
+    DaBrush.fillStyle = "#05070f";
     DaBrush.fillRect(0,0,DaQazi.width,DaQazi,height)
     for (const star of allStars){
         star.x += star.vx;
         star.y += star.vy;
 
         if (star.x < 0) star.x = DaQazi.width;
-        if(star.x > DaQazi) star.x = 0;
-        if (star.y < 0) star.y = DaQazi.width;
-        if(star.x > DaQazi) star.x = 0;
+        if (star.x > DaQazi.width) star.x = 0;
+        if (star.y < 0) star.y = DaQazi.height;
+        if (star.y > DaQazi.height) star.y = 0;
 
         const twinkle = Math.sin(t + star.TwinkyTime) * 0.4 + 0.6;
         DaBrush.beginPath();
         DaBrush.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        DaBrush.fillstyle = 'rgba(255,255,255, ${twinkle})';
+
+        DaBrush.fillStyle = `rgba(255,255,255, ${twinkle})`;
         DaBrush.fill();
     }
 
@@ -57,7 +59,7 @@ function Stars(){
                 DaBrush.beginPath();
                 DaBrush.moveTo(allStars[_].x, allStars[_].y);
                 DaBrush.lineTo(allStars[i].x, allStars[i].y);
-                DaBrush.strokeStyle = 'rgba(180, 200, 255, ${1 - dist /distance})';
+                DaBrush.strokeStyle = `rgba(180, 200, 255, ${1 - dist /distance})`;
                 DaBrush.lineWidth = 0.5;
                 DaBrush.stroke();
             }
