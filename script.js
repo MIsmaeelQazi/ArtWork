@@ -18,7 +18,7 @@ const stars = 200;
 const distance = 120;
 
 const allStars = []
-for (let _ = 0; i < stars; i++){
+for (let _ = 0; _ < stars; _++){
     stars.push({
         x : Math.random() * DaQazi.width,
         y : Math.random() * DaQazi.height,
@@ -46,6 +46,24 @@ function Stars(){
         DaBrush.fillstyle = 'rgba(255,255,255, ${twinkle})';
         DaBrush.fill();
     }
+
+    for (let _ = 0; _ < star.length;_++){
+        for(let i= _ + 1; i< stars.length; i ++){
+            const dx = stars[_].x - stars[i].x;
+            const dy = stars[_].y - stars[i].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < distance){
+                DaBrush.beginPath();
+                DaBrush.moveTo(stars[_].x, stars[_].y);
+                DaBrush.lineTo(stars[i].x, stars[i].y);
+                DaBrush.strokeStyle = 'rgba(180, 200, 255, ${1 - dist /distance})';
+                DaBrush.lineWidth = 0.5;
+                DaBrush.stroke();
+            }
+
+        }
+    }
+    requestAnimationFrame(animate);
 }
 
 
