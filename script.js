@@ -26,6 +26,46 @@ for (let _ = 0; _ < stars; _++){
 }
 let t = 0;
 
+
+const ShootingStars = []
+
+function ShootThemStars(){
+    if (Math.random() < 0.015 && ShootingStars.length < 2){
+        const speed = Math.random()* 8 + 12;
+        ShootingStars.push({
+            x:Math.random() * DaQazi.width,
+            y:Math.random() * (DaQazi.height/2),
+            len: Math.random() * 80 + 40,
+            vx: speed,
+            vy:speed 
+        });
+    }
+    for(let _ = ShootingStars.length - 1; _ >= 0; _ --){
+        const ss = ShootingStars[_];
+
+        DaBrush.beginPath();
+        DaBrush.moveTo(ss.x,ss.y);
+        DaBrush.lineTo(ss.x - ss.len, ss.y - ss.len);
+
+        const gradient = DaBrush.createLinearGradient(ss.x, ss.y, ss.x - ss.len, ss.y - ss.len);
+        gradient.addColorStop(0, "rgba(255,255,255,0)");
+        gradient.addColorStop(0, "rgba(255,255,255,1)");
+
+        DaBrush.strokeStyle = gradient;
+        DaBrush.lineWidth = 1.5;
+        DaBrush.stroke();
+
+        ss.x += ss.vx;
+        ss.y += ss.vy;
+
+        if (ss.x > DaQazi.width + ss.len || ss.y > DaQazi.height + ss.len){
+            ShootingStars.splice(_,1);
+        }
+    
+    
+    }
+}
+
 function Stars(){
     t += 0.02;
 
@@ -65,58 +105,13 @@ function Stars(){
         }
     }
     requestAnimationFrame(Stars);
+    ShootThemStars();
 }
 
-const ShootingStars = []
-
-function ShootThemStars{
-    if (Math.random() < 0.015 && ShootingStars.length < 2){
-        const speed = Math.random()* 8 + 12;
-        ShootingStars.push({
-            x:Math.random() * DaQazi.width,
-            y:Math.random() * (DaQazi.height/2),
-            len: Math.random() * 80 + 40,
-            vx: speed,
-            vy:speed 
-        });
-    }
-    for(let _ = ShootingStars.length - 1; _ >= 0; _ --){
-        const ss = ShootingStars[_];
-
-        DaBrush.beginPath();
-        DaBrush.moveTo(ss.x,ss.y);
-        DaBrush.lineTo(ss.x - ss.len, ss.y - ss.len);
-
-        const gradient = DaBrush.createLinearGradient(ss.x, ss.y, ss.x - ss.len, ss.y - ss.len);
-        gradient.addColorStop(0, "rgba(255,255,255,1)");
-        gradient.addColorStop(0, "rgba(255,255,255,0)");
-
-        DaBrush.strokeStyle = gradient;
-        DaBrush.lineWidth = 1.5;
-        DaBrush.stroke();
-
-        ss.x += ss.vx;
-        ss.y += ss.vy;
-
-        if (ss.x > DaQazi.width + ss.len || ss.y > DaQazi.height + ss.len){
-            ShootingStars.splice(_,1);
-        }
-    
-    
-    }
-
-
-
-
-
-
-
-}
 
 
 
 Stars();
-ShootThemStars();
 
 
 
