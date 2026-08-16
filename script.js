@@ -47,7 +47,7 @@ function Stars(){
         DaBrush.fill();
     }
 
-    for (let _ = 0; _ < star.length;_++){
+    for (let _ = 0; _ < allStars.length;_++){
         for(let i= _ + 1; i< allStars.length; i ++){
             const dx = allStars[_].x - allStars[i].x;
             const dy = allStars[_].y - allStars[i].y;
