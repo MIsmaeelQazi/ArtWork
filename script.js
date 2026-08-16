@@ -43,7 +43,7 @@ function Stars(){
         const twinkle = Math.sin(t + star.TwinkyTime) * 0.4 + 0.6;
         DaBrush.beginPath();
         DaBrush.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        DaBrush.fillstyle = 'rgba(255,255,255, ${twinkle})';
+        DaBrush.fillstyle = 'rgba(0,0,0, ${twinkle})';
         DaBrush.fill();
     }
 
