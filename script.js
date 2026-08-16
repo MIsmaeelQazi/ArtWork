@@ -1,5 +1,3 @@
-const { createContext } = require("react");
-
 const DaQazi = document.getElementById("CanvasWorthyOfMe")
 const DaBrush = DaQazi.getContext("2d")
 
