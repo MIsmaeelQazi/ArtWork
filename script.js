@@ -63,7 +63,7 @@ function Stars(){
 
         }
     }
-    requestAnimationFrame(animate);
+    requestAnimationFrame(Stars);
 }
 
 
