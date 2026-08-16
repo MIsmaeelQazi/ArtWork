@@ -31,7 +31,7 @@ const ShootingStars = []
 
 function ShootThemStars(){
     if (Math.random() < 0.015 && ShootingStars.length < 2){
-        const speed = Math.random()* 8 + 12;
+        const speed = Math.random()* 4 + 4;
         ShootingStars.push({
             x:Math.random() * DaQazi.width,
             y:Math.random() * (DaQazi.height/2),
