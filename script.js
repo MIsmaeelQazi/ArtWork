@@ -1,3 +1,5 @@
+const { createContext } = require("react");
+
 const DaQazi = document.getElementById("CanvasWorthyOfMe")
 const DaBrush = DaQazi.getContext("2d")
 
@@ -9,10 +11,6 @@ function CanvasSize(){
 CanvasSize()
 window.addEventListener("resize", CanvasSize);
 
-function background() {
-    DaBrush.fillStyle = "black";
-    DaBrush.fillRect(0, 0, DaQazi.width, DaQazi.height);
-}
 
 const stars = 200;
 const distance = 120;
@@ -31,6 +29,9 @@ for (let _ = 0; _ < stars; _++){
 let t = 0;
 
 function Stars(){
+
+    DaBrush.fillstyle = "#05070f";
+    DaBrush.fillRect(0,0,DaQazi.width,DaQazi,height)
     for (const star of allStars){
         star.x += star.vx;
         star.y += star.vy;
@@ -43,7 +44,7 @@ function Stars(){
         const twinkle = Math.sin(t + star.TwinkyTime) * 0.4 + 0.6;
         DaBrush.beginPath();
         DaBrush.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        DaBrush.fillstyle = 'rgba(0,0,0, ${twinkle})';
+        DaBrush.fillstyle = 'rgba(255,255,255, ${twinkle})';
         DaBrush.fill();
     }
 
