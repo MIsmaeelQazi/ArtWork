@@ -10,7 +10,7 @@ CanvasSize()
 window.addEventListener("resize", CanvasSize);
 
 
-const stars = 1500;
+const stars = 2500;
 const distance = 120;
 
 const allStars = []
