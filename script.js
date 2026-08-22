@@ -21,7 +21,8 @@ for (let _ = 0; _ < stars; _++){
         vx: (Math.random() - 0.5) * 0.3,
         vy: (Math.random() - 0.5) * 0.3,
         radius: Math.random() ** 3 * 2.5 + 0.2,
-        TwinkyTime: Math.random() * Math.PI * 2
+        TwinkyTime: Math.random() * Math.PI * 2,
+        Twinkle : Math.random() * 0.7 + 0.2
     });
 }
 let t = 0;
