@@ -90,7 +90,6 @@ function Stars(){
     }
 
     requestAnimationFrame(Stars);
-    ShootThemStars();
 }
 
 
