@@ -81,7 +81,7 @@ function Stars(){
         if (star.y < 0) star.y = DaQazi.height;
         if (star.y > DaQazi.height) star.y = 0;
 
-        const twinkle = Math.sin(t + star.TwinkyTime) * 0.4 + 0.6;
+        const twinkle = (Math.sin(t + star.TwinkyTime) * 0.4 + 0.6)*star.twinkle;
         DaBrush.beginPath();
         DaBrush.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
 
