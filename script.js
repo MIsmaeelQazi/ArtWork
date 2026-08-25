@@ -83,7 +83,7 @@ function Stars(){
 
         const twinkle = (Math.sin(t + star.TwinkyTime) * 0.4 + 0.6)*star.Twinkle;
         const glow = DaBrush.createRadialGradient(star.x,star.y,0, star.x, star.y, star.radius* 6);
-        glow.addColorStop(0, 'rgba(255,255,255, ${twinkle * 0.5})');
+        glow.addColorStop(0, `rgba(255,255,255, ${twinkle * 0.5})`);
         glow.addColorStop(1, 'rgba(255,255,255, 0)');
         
 
