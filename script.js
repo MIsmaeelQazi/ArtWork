@@ -128,7 +128,7 @@ function Stars(){
         DaBrush.fillStyle = `rgba(255,255,255, ${twinkle})`;
         DaBrush.fill();
     }
-
+    ShootThemStars();
     requestAnimationFrame(Stars);
 }
 
