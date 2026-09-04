@@ -34,7 +34,7 @@ const ShootingStars = []
 function ShootThemStars(){
     if (Math.random() < 0.005 && ShootingStars.length < 2){
         const speed = Math.random()* 5 + 6;
-        const angle = Math.PI / 4
+        const angle = Math.random()*(Math.PI / 9) + Math.PI /5;
 
         ShootingStars.push({
             x:Math.random()*DaQazi.width,
@@ -66,14 +66,14 @@ function ShootThemStars(){
         DaBrush.lineWidth = 2;
         DaBrush.stroke();
 
-        const GlowingHead = DaBrush.createRadialGradient(ss.x,ss.y,0,ss.x,ss.y,6);
+        const GlowingHead = DaBrush.createRadialGradient(ss.x,ss.y,0,ss.x,ss.y,4);
         GlowingHead.addColorStop(0, `rgba(255,255,255,${ss.Opacity})`);
         GlowingHead.addColorStop(1, `rgba(255,255,255,0)`);
 
         DaBrush.fillStyle = GlowingHead;
 
         DaBrush.beginPath();
-        DaBrush.arc(ss.x,ss.y,6,0,Math.PI*2);
+        DaBrush.arc(ss.x,ss.y,4,0,Math.PI*2);
 
         DaBrush.fill();
         DaBrush.beginPath();
