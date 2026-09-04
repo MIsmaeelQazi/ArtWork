@@ -44,7 +44,7 @@ function ShootThemStars(){
             vy: Math.sin(angle) * speed,
             Opacity:1,
             fade:Math.random() * 0.015 + 0.01
-        })
+        })}
 
 
     for(let _ = ShootingStars.length - 1; _ >= 0; _ --){
@@ -95,7 +95,7 @@ function ShootThemStars(){
     
     }
 }
-}
+
 
 function Stars(){
     t += 0.02;
