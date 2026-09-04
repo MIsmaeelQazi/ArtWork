@@ -23,6 +23,7 @@ for (let _ = 0; _ < stars; _++){
         radius: Math.random() ** 3 * 2.5 + 0.2,
         TwinkyTime: Math.random() * Math.PI * 2,
         Twinkle : Math.random() * 0.7 + 0.2
+        
     });
 }
 let t = 0;
@@ -82,14 +83,14 @@ function Stars(){
         if (star.y > DaQazi.height) star.y = 0;
 
         const twinkle = (Math.sin(t + star.TwinkyTime) * 0.4 + 0.6)*star.Twinkle;
-        const glow = DaBrush.createRadialGradient(star.x,star.y,0, star.x, star.y, star.radius* 6);
-        glow.addColorStop(0, `rgba(255,255,255, ${twinkle * 0.5})`);
+        const glow = DaBrush.createRadialGradient(star.x,star.y,0, star.x, star.y, star.radius* 2.5);
+        glow.addColorStop(0, `rgba(255,255,255, ${twinkle * 0.25})`);
         glow.addColorStop(1, 'rgba(255,255,255, 0)');
         
 
         DaBrush.fillStyle = glow;
         DaBrush.beginPath();
-        DaBrush.arc(star.x, star.y, star.radius * 6, 0, Math.PI * 2);
+        DaBrush.arc(star.x, star.y, star.radius * 2.5, 0, Math.PI * 2);
 
         DaBrush.fill();
         DaBrush.beginPath();
