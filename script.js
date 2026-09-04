@@ -66,14 +66,14 @@ function ShootThemStars(){
         DaBrush.lineWidth = 2;
         DaBrush.stroke();
 
-        const GlowingHead = DaBrush.createRadialGradient(ss.x,ss.y,0,ss.x,ss.y,10);
+        const GlowingHead = DaBrush.createRadialGradient(ss.x,ss.y,0,ss.x,ss.y,6);
         GlowingHead.addColorStop(0, `rgba(255,255,255,${ss.Opacity})`);
-        GlowingHead.addColorStop(1, `rgba(255,255,255,1)`);
+        GlowingHead.addColorStop(1, `rgba(255,255,255,0)`);
 
         DaBrush.fillStyle = GlowingHead;
 
         DaBrush.beginPath();
-        DaBrush.arc(ss.x,ss.y,10,0,Math.PI*2);
+        DaBrush.arc(ss.x,ss.y,6,0,Math.PI*2);
 
         DaBrush.fill();
         DaBrush.beginPath();
