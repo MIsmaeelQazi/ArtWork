@@ -32,40 +32,69 @@ let t = 0;
 const ShootingStars = []
 
 function ShootThemStars(){
-    if (Math.random() < 0.015 && ShootingStars.length < 2){
-        const speed = Math.random()* 4 + 4;
+    if (Math.random() < 0.005 && ShootingStars.length < 2){
+        const speed = Math.random()* 5 + 6;
+        const angle = Math.PI / 4
+
         ShootingStars.push({
-            x:Math.random() * DaQazi.width,
-            y:Math.random() * (DaQazi.height/2),
-            len: Math.random() * 80 + 40,
-            vx: speed,
-            vy:speed 
-        });
-    }
+            x:Math.random()*DaQazi.width,
+            y:Math.random()* DaQazi.height * 0.6,
+            len: Math.random() * 100 + 60,
+            vx:Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            Opacity:1,
+            fade:Math.random() * 0.015 + 0.01
+        })
+
+
     for(let _ = ShootingStars.length - 1; _ >= 0; _ --){
         const ss = ShootingStars[_];
+        const tailx = ss.x - ss.vx*(ss.len/10);
+        const taily = ss.y - ss.vy*(ss.len/10);
+
+        const gradient = DaBrush.createLinearGradient(ss.x,ss.y,tailx,taily);
+        gradient.addColorStop(0, `rgba(255,255,255,${ss.Opacity})`);
+        gradient.addColorStop(1, `rgba(255,255,255,0)`);
+
+
 
         DaBrush.beginPath();
         DaBrush.moveTo(ss.x,ss.y);
-        DaBrush.lineTo(ss.x - ss.len, ss.y - ss.len);
-
-        const gradient = DaBrush.createLinearGradient(ss.x, ss.y, ss.x - ss.len, ss.y - ss.len);
-        gradient.addColorStop(0, "rgba(255,255,255,0)");
-        gradient.addColorStop(0, "rgba(255,255,255,1)");
+        DaBrush.lineTo(tailx, taily);        
 
         DaBrush.strokeStyle = gradient;
-        DaBrush.lineWidth = 1.5;
+        DaBrush.lineWidth = 2;
         DaBrush.stroke();
+
+        const GlowingHead = DaBrush.createRadialGradient(ss.x,ss.y,0,ss.x,ss.y,10);
+        GlowingHead.addColorStop(0, `rgba(255,255,255,${ss.Opacity})`);
+        GlowingHead.addColorStop(1, `rgba(255,255,255,1)`);
+
+        DaBrush.fillStyle = GlowingHead;
+
+        DaBrush.beginPath();
+        DaBrush.arc(ss.x,ss.y,10,0,Math.PI*2);
+
+        DaBrush.fill();
+        DaBrush.beginPath();
+        DaBrush.arc(ss.x,ss.y,1.5,0,Math.PI*2);
+
+        DaBrush.fillStyle = `rgba(255,255,255,${ss.Opacity})`;
+        DaBrush.fill();
 
         ss.x += ss.vx;
         ss.y += ss.vy;
 
-        if (ss.x > DaQazi.width + ss.len || ss.y > DaQazi.height + ss.len){
+        ss.Opacity -= ss.fade;
+
+
+        if (ss.Opacity <=0 || ss.x > DaQazi.width + ss.len || ss.y > DaQazi.height + ss.len){
             ShootingStars.splice(_,1);
         }
     
     
     }
+}
 }
 
 function Stars(){
