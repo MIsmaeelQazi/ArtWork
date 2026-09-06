@@ -102,7 +102,10 @@ function Stars(){
     t += 0.02;
 
     DaBrush.fillStyle = "#05070f";
-    DaBrush.fillRect(0,0,DaQazi.width,DaQazi.height)
+    DaBrush.fillRect(0,0,DaQazi.width,DaQazi.height);
+
+
+    
     for (const star of allStars){
         star.x += star.vx;
         star.y += star.vy;
