@@ -114,16 +114,16 @@ function Stars(){
 
         const twinkle = (Math.sin(t + star.TwinkyTime) * 0.4 + 0.6)*star.Twinkle;
         const [r,g,b] = star.color;
-        const glow = DaBrush.createRadialGradient(star.x,star.y,0, star.x, star.y, star.radius* 2.5);
-        glow.addColorStop(0, `rgba(${r},${g},${b}, ${twinkle * 0.25})`);
-        glow.addColorStop(1, `rgba(${r},${g},${b}, 0)`);
+        //const glow = DaBrush.createRadialGradient(star.x,star.y,0, star.x, star.y, star.radius* 2.5);
+        //glow.addColorStop(0, `rgba(${r},${g},${b}, ${twinkle * 0.25})`);
+        //glow.addColorStop(1, `rgba(${r},${g},${b}, 0)`);
         
 
-        DaBrush.fillStyle = glow;
-        DaBrush.beginPath();
-        DaBrush.arc(star.x, star.y, star.radius * 2.5, 0, Math.PI * 2);
+       // DaBrush.fillStyle = glow;
+       // DaBrush.beginPath();
+       // DaBrush.arc(star.x, star.y, star.radius * 2.5, 0, Math.PI * 2);
 
-        DaBrush.fill();
+       // DaBrush.fill();
         DaBrush.beginPath();
         DaBrush.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
 
