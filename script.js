@@ -12,7 +12,7 @@ window.addEventListener("resize", CanvasSize);
 
 const stars = 2500;
 const distance = 120;
-
+const Colors = [[255,255,255],[210,230,255],[255,245,220],[200,220,255]]
 const allStars = []
 for (let _ = 0; _ < stars; _++){
     allStars.push({
@@ -23,6 +23,7 @@ for (let _ = 0; _ < stars; _++){
         radius: Math.random() ** 3 * 2.5 + 0.2,
         TwinkyTime: Math.random() * Math.PI * 2,
         Twinkle : Math.random() * 0.7 + 0.2
+        color : Colors[Math.floor(Math.random()* Colors.length)]
         
     });
 }
@@ -112,9 +113,10 @@ function Stars(){
         if (star.y > DaQazi.height) star.y = 0;
 
         const twinkle = (Math.sin(t + star.TwinkyTime) * 0.4 + 0.6)*star.Twinkle;
+        const [r,g,b] = star.color;
         const glow = DaBrush.createRadialGradient(star.x,star.y,0, star.x, star.y, star.radius* 2.5);
-        glow.addColorStop(0, `rgba(255,255,255, ${twinkle * 0.25})`);
-        glow.addColorStop(1, 'rgba(255,255,255, 0)');
+        glow.addColorStop(0, `rgba(${r},${g},${b}, ${twinkle * 0.25})`);
+        glow.addColorStop(1, `rgba(${r},${g},${b}, 0)`);
         
 
         DaBrush.fillStyle = glow;
@@ -125,7 +127,7 @@ function Stars(){
         DaBrush.beginPath();
         DaBrush.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
 
-        DaBrush.fillStyle = `rgba(255,255,255, ${twinkle})`;
+        DaBrush.fillStyle = `rgba(${r}, ${g} ,${b} , ${twinkle})`;
         DaBrush.fill();
     }
     ShootThemStars();
