@@ -101,11 +101,13 @@ function ShootThemStars(){
 function Stars(){
     t += 0.02;
 
-    DaBrush.fillStyle = "#05070f";
+    const Sky = DaBrush.createLinearGradient(0,0,0,DaQazi.height);
+    Sky.addColorStop(0, "#02030a");
+    Sky.addColorStop(0, "#000d1c");
+    DaBrush.fillStyle = Sky;
     DaBrush.fillRect(0,0,DaQazi.width,DaQazi.height);
 
 
-    
     for (const star of allStars){
         star.x += star.vx;
         star.y += star.vy;
