@@ -117,7 +117,7 @@ function Stars(){
         if (star.y < 0) star.y = DaQazi.height;
         if (star.y > DaQazi.height) star.y = 0;
 
-        const twinkle = (Math.sin(t + star.TwinkyTime) * 0.4 + 0.6)*star.Twinkle;
+        const twinkle = (Math.sin(t + star.TwinkyTime) * 0.4 + 0.6)*star.Twinkle* star.Depth;
         const [r,g,b] = star.color;
         //const glow = DaBrush.createRadialGradient(star.x,star.y,0, star.x, star.y, star.radius* 2.5);
         //glow.addColorStop(0, `rgba(${r},${g},${b}, ${twinkle * 0.25})`);
