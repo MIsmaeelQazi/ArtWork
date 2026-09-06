@@ -23,8 +23,8 @@ for (let _ = 0; _ < stars; _++){
         radius: Math.random() ** 3 * 2.5 + 0.2,
         TwinkyTime: Math.random() * Math.PI * 2,
         Twinkle : Math.random() * 0.7 + 0.2,
-        color : Colors[Math.floor(Math.random()* Colors.length)]
-        
+        color : Colors[Math.floor(Math.random()* Colors.length)],
+        Depth : Math.random()* 0.5 + 0.5
     });
 }
 let t = 0;
@@ -103,7 +103,7 @@ function Stars(){
 
     const Sky = DaBrush.createLinearGradient(0,0,0,DaQazi.height);
     Sky.addColorStop(0, "#02030a");
-    Sky.addColorStop(0, "#000d1c");
+    Sky.addColorStop(1, "#000d1c");
     DaBrush.fillStyle = Sky;
     DaBrush.fillRect(0,0,DaQazi.width,DaQazi.height);
 
