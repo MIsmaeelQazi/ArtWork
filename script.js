@@ -34,7 +34,7 @@ const ShootingStars = []
 
 function ShootThemStars(){
     if (Math.random() < 0.005 && ShootingStars.length < 2){
-        const speed = Math.random()* 7 + 10;
+        const speed = Math.random()* 6 + 7;
         const angle = Math.random()*(Math.PI / 9) + Math.PI /5;
 
         ShootingStars.push({
