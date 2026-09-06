@@ -109,8 +109,8 @@ function Stars(){
 
 
     for (const star of allStars){
-        star.x += star.vx;
-        star.y += star.vy;
+        star.x += star.vx * star.Depth;
+        star.y += star.vy * star.Depth;
 
         if (star.x < 0) star.x = DaQazi.width;
         if (star.x > DaQazi.width) star.x = 0;
