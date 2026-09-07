@@ -27,20 +27,20 @@ function Galaxy(_){
 const allStars = []
 for (let _ = 0; _ < stars; _++){
 
-    const x = Math.random()*DaQazi.width;
-    let y;
+    const X = Math.random()*DaQazi.width;
+    let Y;
 
     if (Math.random()<0.45){
-        y = Galaxy(x);
+        Y = Galaxy(x);
     }
     else {
-        y = Math.random()*DaQazi.height;
+        Y = Math.random()*DaQazi.height;
     }
-    y = Math.max(0, Math.min(DaQazi.height,y));
+    Y = Math.max(0, Math.min(DaQazi.height,y));
 
     allStars.push({
-        x : Math.random() * DaQazi.width,
-        y : Math.random() * DaQazi.height,
+        x : X
+        y : Y,
         vx: (Math.random() - 0.5) * 0.3,
         vy: (Math.random() - 0.5) * 0.3,
         radius: Math.random() ** 3 * 2.5 + 0.2,
