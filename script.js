@@ -36,7 +36,7 @@ for (let _ = 0; _ < stars; _++){
     else {
         Y = Math.random()*DaQazi.height;
     }
-    Y = Math.max(0, Math.min(DaQazi.height,y));
+    Y = Math.max(0, Math.min(DaQazi.height,Y));
 
     allStars.push({
         x : X,
