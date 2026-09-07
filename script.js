@@ -31,7 +31,7 @@ for (let _ = 0; _ < stars; _++){
     let Y;
 
     if (Math.random()<0.45){
-        Y = Galaxy(x);
+        Y = Galaxy(X);
     }
     else {
         Y = Math.random()*DaQazi.height;
