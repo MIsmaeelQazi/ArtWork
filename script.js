@@ -16,7 +16,7 @@ const Colors = [[255,255,255],[210,230,255],[255,245,220],[200,220,255]]
 function Galaxy(_){
     const center = DaQazi.height * 0.8 - (_/ DaQazi.width) * DaQazi.height * 0.8;
 
-    const spread = DaQazi.height * 0.25;
+    const spread = DaQazi.height * 0.10;
 
     const Rand = Math.random() + Math.random() + Math.random() + Math.random() -2;
 
