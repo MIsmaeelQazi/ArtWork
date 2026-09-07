@@ -11,10 +11,25 @@ window.addEventListener("resize", CanvasSize);
 
 
 const stars = 2500;
-const distance = 120;
+//const distance = 120;
 const Colors = [[255,255,255],[210,230,255],[255,245,220],[200,220,255]]
+function Galaxy(_){
+    const center = DaQazi.height * 0.8 - (_/ DaQazi.width) * DaQazi.height * 0.8;
+
+    const spread = DaQazi.height * 0.25;
+
+    const Rand = Math.random() + Math.random() + Math.random() + Math.random() -2;
+
+    return center + Rand + spread;
+}
+
+
 const allStars = []
 for (let _ = 0; _ < stars; _++){
+
+    const x = Math.random()*DaQazi.width;
+    const y = Galaxy(x);
+
     allStars.push({
         x : Math.random() * DaQazi.width,
         y : Math.random() * DaQazi.height,
@@ -106,14 +121,14 @@ function Stars(){
     Sky.addColorStop(1, "#000d1c");
     DaBrush.fillStyle = Sky;
     DaBrush.fillRect(0,0,DaQazi.width,DaQazi.height);
-    const Galaxy = DaBrush.createLinearGradient(0, DaQazi.height, DaQazi.width, DaQazi.height * 0.2);
+    const OurGalaxy = DaBrush.createLinearGradient(0, DaQazi.height, DaQazi.width, DaQazi.height * 0.2);
 
-    Galaxy.addColorStop(0,"rgba(0,0,0,0)");
-    Galaxy.addColorStop(0.5,"rgba(70,80,130,0.07)");
-    Galaxy.addColorStop(1,"rgba(0,0,0,0)");
+    OurGalaxy.addColorStop(0,"rgba(0,0,0,0)");
+    OurGalaxy.addColorStop(0.5,"rgba(70,80,130,0.07)");
+    OurGalaxy.addColorStop(1,"rgba(0,0,0,0)");
 
 
-    DaBrush.fillStyle = Galaxy;
+    DaBrush.fillStyle = OurGalaxy;
     DaBrush.fillRect(0,0,DaQazi.width, DaQazi.height);
     for (const star of allStars){
         star.x += star.vx * star.Depth;
