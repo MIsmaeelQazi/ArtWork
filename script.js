@@ -10,7 +10,7 @@ CanvasSize()
 window.addEventListener("resize", CanvasSize);
 
 
-const stars = 2500;
+const stars = 3500;
 //const distance = 120;
 const Colors = [[255,255,255],[210,230,255],[255,245,220],[200,220,255]]
 function Galaxy(_){
