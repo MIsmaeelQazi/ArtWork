@@ -20,7 +20,7 @@ function Galaxy(_){
 
     const Rand = Math.random() + Math.random() + Math.random() + Math.random() -2;
 
-    return center + Rand + spread;
+    return center + Rand * spread;
 }
 
 
