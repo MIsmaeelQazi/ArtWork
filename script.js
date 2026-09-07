@@ -28,7 +28,15 @@ const allStars = []
 for (let _ = 0; _ < stars; _++){
 
     const x = Math.random()*DaQazi.width;
-    const y = Galaxy(x);
+    let y;
+
+    if (Math.random()<0.35){
+        y = Galaxy(x);
+    }
+    else {
+        y = Math.random()*DaQazi.height;
+    }
+    y = Math.max(0, Math.min(DaQazi.height,y));
 
     allStars.push({
         x : Math.random() * DaQazi.width,
