@@ -30,7 +30,7 @@ for (let _ = 0; _ < stars; _++){
     const x = Math.random()*DaQazi.width;
     let y;
 
-    if (Math.random()<0.35){
+    if (Math.random()<0.45){
         y = Galaxy(x);
     }
     else {
