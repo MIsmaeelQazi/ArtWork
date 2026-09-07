@@ -106,8 +106,15 @@ function Stars(){
     Sky.addColorStop(1, "#000d1c");
     DaBrush.fillStyle = Sky;
     DaBrush.fillRect(0,0,DaQazi.width,DaQazi.height);
+    const Galaxy = DaBrush.createLinearGradient(0, DaQazi.height, DaQazi.width, DaQazi.height * 0.2);
+
+    Galaxy.addColorStop(0,"rgba(0,0,0,0)");
+    Galaxy.addColorStop(0.5,"rgba(70,80,130,0.07)");
+    Galaxy.addColorStop(1,"rgba(0,0,0,0)");
 
 
+    DaBrush.fillStyle = Galaxy;
+    DaBrush.fillRect(0,0,DaQazi.width, DaQazi.height);
     for (const star of allStars){
         star.x += star.vx * star.Depth;
         star.y += star.vy * star.Depth;
