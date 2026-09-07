@@ -20,8 +20,8 @@ function Galaxy(_){
 
     const Rand = Math.random() + Math.random() + Math.random() + Math.random() -2;
 
-    const density = Math.sin(x *0.01) * 0.5 +0.5;
-    return center + Rand * spread* (0.5 +density);
+    const density = Math.sin(_ *0.01) * 0.5 +0.5;
+    return center + Rand * spread * (0.5 +density);
 }
 
 
