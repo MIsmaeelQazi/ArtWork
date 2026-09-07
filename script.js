@@ -39,7 +39,7 @@ for (let _ = 0; _ < stars; _++){
     Y = Math.max(0, Math.min(DaQazi.height,y));
 
     allStars.push({
-        x : X
+        x : X,
         y : Y,
         vx: (Math.random() - 0.5) * 0.3,
         vy: (Math.random() - 0.5) * 0.3,
