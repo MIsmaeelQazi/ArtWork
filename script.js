@@ -1,9 +1,17 @@
 const DaQazi = document.getElementById("CanvasWorthyOfMe")
 const DaBrush = DaQazi.getContext("2d")
+let SkyGradient, GalaxyGradient;
 
 function CanvasSize(){
     DaQazi.width = window.innerWidth;
     DaQazi.height = window.innerHeight;
+
+    SkyGradient,GalaxyGradient = DaBrush.createLinearGradient(0,0,0,DaQazi.height);
+    SkyGradient.addColorStop(0,"#02030a");
+    SkyGradient.addColorStop(1,"#000d1c");
+    GalaxyGradient.addColorStop(0,"rgba(0,0,0,0)")
+    GalaxyGradient.addColorStop(0.5,"rgba(70,80,130,0.07)");
+    GalaxyGradient.addColorStop(1,"rgba(0,0,0,0)");
 }
 
 CanvasSize()
@@ -121,6 +129,14 @@ function ShootThemStars(){
     }
 }
 
+
+let EyePhase = 0;
+let EyeOpacity = 0;
+let EyeTimer = 400;
+
+function DrawTheEye(){
+    if 
+}
 
 function Stars(){
     t += 0.02;
