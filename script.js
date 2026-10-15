@@ -1,17 +1,19 @@
 const DaQazi = document.getElementById("CanvasWorthyOfMe")
 const DaBrush = DaQazi.getContext("2d")
-let SkyGradient, GalaxyGradient;
+let Sky, Galaxy;
 
 function CanvasSize(){
     DaQazi.width = window.innerWidth;
     DaQazi.height = window.innerHeight;
 
-    SkyGradient,GalaxyGradient = DaBrush.createLinearGradient(0,0,0,DaQazi.height);
-    SkyGradient.addColorStop(0,"#02030a");
-    SkyGradient.addColorStop(1,"#000d1c");
-    GalaxyGradient.addColorStop(0,"rgba(0,0,0,0)")
-    GalaxyGradient.addColorStop(0.5,"rgba(70,80,130,0.07)");
-    GalaxyGradient.addColorStop(1,"rgba(0,0,0,0)");
+    Sky = DaBrush.createLinearGradient(0,0,0,DaQazi.height);
+    Sky.addColorStop(0,"#02030a");
+    Sky.addColorStop(1,"#000d1c");
+
+    Galaxy = DaBrush.createLinearGradient(0,DaQazi.height,DaQazi.width,DaQazi.height*0.2);
+    Galaxy.addColorStop(0,"rgba(0,0,0,0)");
+    Galaxy.addColorStop(0.5,"rgba(70,80,130,0.07)");
+    Galaxy.addColorStop(1,"rgba(0,0,0,0)");
 }
 
 CanvasSize()
@@ -135,27 +137,84 @@ let EyeOpacity = 0;
 let EyeTimer = 400;
 
 function DrawTheEye(){
-    if 
+    if (EyeOpacity <=0) return;
+    const cx = DaQazi.width /2;
+    const cy = DaQazi.height /2;
+    DaBrush.save();
+    DaBrush.globalAlpha = EyeOpacity;
+
+    const Aura  = DaBrush.createRadialGradient(cx,cy,0,cx,cy,300);
+    Aura.addColorStop(0,"rgba(200,0,0,0.4)");
+    Aura.addColorStop(1,"rgba(0,0,0,0)");
+    DaBrush.fillStyle = Aura;
+    DaBrush.beginPath();
+    DaBrush.arc(cx,cy,300,0,Math.PI*2);
+    DaBrush.fill();
+    DaBrush.fillStyle = "rgba(120,0,0,0.9)";
+    DaBrush.beginPath();
+    DaBrush.ellipse(cx,cy,100,40,0,0,Math.PI * 2);
+    DaBrush.fill();
+    DaBrush.shadowBlur = 20;
+    DaBrush.shadowColor = "red";
+    DaBrush.fillStyle = "black";
+    DaBrush.beginPath();
+    DaBrush.ellipse(cx,cy,10,35,0,0,Math.PI*2);
+    DaBrush.fill();
+    DaBrush.restore();
+
+}
+
+function Creepy(){
+    if (EyePhase ===0){
+        EyeTimer--;
+        if(EyeTimer <= 0) EyePhase = 1;
+    }
+    else if (EyePhase === 1){
+        EyeOpacity += 0.003;
+        if (EyeOpacity >= 0.8){EyePhase =2; EyeTimer =300;}
+    }
+    else if (EyePhase === 2){
+        EyeTimer--;
+        if (EyeTimer <=0) EyePhase = 3;
+    }
+    else if (EyePhase === 3){
+        EyeOpacity -= 0.003;
+        if (EyeOpacity <= 0){EyePhase = 0; EyeTimer = Math.random()*800+400;}
+    }
 }
 
 function Stars(){
     t += 0.02;
 
-    const Sky = DaBrush.createLinearGradient(0,0,0,DaQazi.height);
-    Sky.addColorStop(0, "#02030a");
-    Sky.addColorStop(1, "#000d1c");
     DaBrush.fillStyle = Sky;
     DaBrush.fillRect(0,0,DaQazi.width,DaQazi.height);
-    const OurGalaxy = DaBrush.createLinearGradient(0, DaQazi.height, DaQazi.width, DaQazi.height * 0.2);
-
-    OurGalaxy.addColorStop(0,"rgba(0,0,0,0)");
-    OurGalaxy.addColorStop(0.5,"rgba(70,80,130,0.07)");
-    OurGalaxy.addColorStop(1,"rgba(0,0,0,0)");
-
-
-    DaBrush.fillStyle = OurGalaxy;
+    DaBrush.fillStyle = Galaxy;
     DaBrush.fillRect(0,0,DaQazi.width, DaQazi.height);
+    Creepy();
+    DrawTheEye();
+    const cx = DaQazi.width/2;
+    const cy = DaQazi.height/2;
     for (const star of allStars){
+        let Color = star.color;
+        if(EyeOpacity > 0){
+            const dx = cx - star.x;
+            const dy = cy - star.y;
+            const distance = Math.sqrt(dx*dx+dy*dy);
+
+            if (distance<500){
+                const F = (500 - distance)/ 500 * EyeOpacity * 0.8;
+                const angle = Math.atan2(dy,dx);
+
+                star.x += Math.cos(angle +1.2)* F * 4;
+                star.y += Math.sin(angle+1.2) * F *4;
+
+                if (distance <300){
+                    Color = [255,50,50]
+                }
+            }
+        }
+
+    
         star.x += star.vx * star.Depth;
         star.y += star.vy * star.Depth;
 
@@ -165,27 +224,20 @@ function Stars(){
         if (star.y > DaQazi.height) star.y = 0;
 
         const twinkle = (Math.sin(t + star.TwinkyTime) * 0.4 + 0.6)*star.Twinkle* star.Depth;
-        const [r,g,b] = star.color;
-        //const glow = DaBrush.createRadialGradient(star.x,star.y,0, star.x, star.y, star.radius* 2.5);
-        //glow.addColorStop(0, `rgba(${r},${g},${b}, ${twinkle * 0.25})`);
-        //glow.addColorStop(1, `rgba(${r},${g},${b}, 0)`);
-        
-
-       // DaBrush.fillStyle = glow;
-       // DaBrush.beginPath();
-       // DaBrush.arc(star.x, star.y, star.radius * 2.5, 0, Math.PI * 2);
-
-       // DaBrush.fill();
+        const [r,g,b] = Color;
         DaBrush.beginPath();
         DaBrush.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
 
         DaBrush.fillStyle = `rgba(${r}, ${g} ,${b} , ${twinkle})`;
         DaBrush.fill();
     }
+
+
+
     ShootThemStars();
     requestAnimationFrame(Stars);
-}
 
+}
 
 
 
