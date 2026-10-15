@@ -23,7 +23,7 @@ window.addEventListener("resize", CanvasSize);
 const stars = 5500;
 //const distance = 120;
 const Colors = [[255,255,255],[210,230,255],[255,245,220],[225,210,255],[255,225,100],[190,225,255],]
-function Galaxy(_){
+function DrawGalaxy(_){
     const center = DaQazi.height * 0.8 - (_/ DaQazi.width) * DaQazi.height * 0.8;
 
     const spread = DaQazi.height * 0.10;
@@ -42,7 +42,7 @@ for (let _ = 0; _ < stars; _++){
     let Y;
 
     if (Math.random()<0.45){
-        Y = Galaxy(X);
+        Y = DrawGalaxy(X);
     }
     else {
         Y = Math.random()*DaQazi.height;
