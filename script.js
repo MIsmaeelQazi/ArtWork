@@ -65,7 +65,7 @@ for (let _ = 0; _ < stars; _++){
         vy: VyI,
         tx:0,
         ty:0,
-        Text: false,
+        text: false,
         radius: Math.random() ** 3 * 2.5 + 0.2,
         TwinkyTime: Math.random() * Math.PI * 2,
         Twinkle : Math.random() * 0.7 + 0.2,
@@ -195,6 +195,7 @@ function TheEye(){
 
     const px = cx +Math.cos(angle)*dist;
     const py =cy +Math.sin(angle)*dist;
+    DaBrush.beginPath();
     DaBrush.arc(px,py,60,0,Math.PI*2);
     DaBrush.fillStyle = "rgba(180,0,0,0.8)";
     DaBrush.shadowColor = "red";
@@ -216,7 +217,7 @@ let TextTimer = 400;
 let C = 0;
 
 const TextCanvas = document.createElement("canvas");
-const TextCtx = TextCanvas.getContext("2d", {willReadFrequenttly:true});
+const TextCtx = TextCanvas.getContext("2d", {willReadFrequently:true});
 
 
 function Deliver(){
@@ -228,16 +229,17 @@ function Deliver(){
     TextCtx.fillRect(0,0,TextCanvas.width,TextCanvas.height);
     TextCtx.fillStyle = "white";
     TextCtx.font = "bold 50px Arial";
-    TextCtx.textbaseline = "middle";
-    text.filltext(Speech, TextCanvas.width/2, TextCanvas.height/2);
+    TextCtx.textBaseLine = "middle";
+    TextCtx.textAlign = "center";
+    text.fillText(Speech, TextCanvas.width/2, TextCanvas.height/2);
 
-    const imgData = TextCtx.getImageData(0,0,TextCanvas,width,TextCanvas.height).data;
+    const imgData = TextCtx.getImageData(0,0,TextCanvas.width,TextCanvas.height).data;
     const textPixels = [];
-    for (let tempy =0;y<TextCanvas.height; y +=4){
-        for (let tempx =0; x <TextCanvas.width; x +=4){
-            const i = (y*TextCanvas.width+x)*4;
-            if (imgData[index] > 128) {
-                textPixels.push({x,y});
+    for (let tempy =0;tempy<TextCanvas.height; tempy +=4){
+        for (let tempx =0; tempx <TextCanvas.width; tempx +=4){
+            const i = (tempy*TextCanvas.width+tempx)*4;
+            if (imgData[i] > 128) {
+                textPixels.push({tempx,tempy});
             }
         }
     }
@@ -249,7 +251,7 @@ function Deliver(){
             allStars[i].text = true;
         }
     }
-    c++;
+    C++;
 }
 
 function Stars(){
