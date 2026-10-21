@@ -1,6 +1,12 @@
 const DaQazi = document.getElementById("CanvasWorthyOfMe")
-const DaBrush = DaQazi.getContext("2d")
+const DaBrush = DaQazi.getContext("2d",{ willReadFrequenttly:true});
 let Sky, Galaxy;
+
+const Mouse =[window.innerWidth/2,window.innerHeight/2];
+window.addEventListener('mousemove',(e)=>{
+    Mouse[0] = e.clientX;
+    Mouse[1] =e.clientY;
+});
 
 function CanvasSize(){
     DaQazi.width = window.innerWidth;
@@ -49,11 +55,17 @@ for (let _ = 0; _ < stars; _++){
     }
     Y = Math.max(0, Math.min(DaQazi.height,Y));
 
+    const VxI = (Math.random() - 0.5) *0.3;
+    const VyI = (Math.random() - 0.5)* 0.3;
+
     allStars.push({
         x : X,
         y : Y,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
+        vx: VxI,
+        vy: VyI,
+        tx:0,
+        ty:0,
+        Text: false,
         radius: Math.random() ** 3 * 2.5 + 0.2,
         TwinkyTime: Math.random() * Math.PI * 2,
         Twinkle : Math.random() * 0.7 + 0.2,
@@ -130,57 +142,114 @@ function ShootThemStars(){
     
     }
 }
-
-
-let EyePhase = 0;
 let EyeOpacity = 0;
-let EyeTimer = 400;
+let EyeState = 0;
+let EyeTimer = 0;
+let F =0;
+function ISeeYou(){
+    if (EyeState ===0 && Math.random()< 0.003){
+        EyeState = 1;
+    }
+    else if (EyeState === 1){
+        EyeOpacity += 0.005;
+        if (EyeOpacity>= 0.7) EyeState =2;
+    }
+    else if (EyeState === 2){
+        EyeTimer ++;
+        if (EyeTimer > 200){
+            EyeState = 3;
+            EyeTimer = 0;
+        }
+    }
+    else if (EyeState ===3){
+            EyeOpacity -= 0.01;
+            if (EyeOpacity <= 0){
+                EyeOpacity = 0;
+                EyeState =0;
+            }
+        }
+        F = EyeOpacity;
+}
 
-function DrawTheEye(){
+function TheEye(){
     if (EyeOpacity <=0) return;
-    const cx = DaQazi.width /2;
-    const cy = DaQazi.height /2;
+    const cx = DaQazi.width/2;
+    const cy = DaQazi.height / 2;
+    const dx = Mouse[0] - cx;
+    const dy = Mouse[1] - cy;
+    const angle = Math.Math.atan2(dy,dx);
+    const dist = Math.min(Math.sqrt(dx*dx +dy*dy),70);
+
     DaBrush.save();
     DaBrush.globalAlpha = EyeOpacity;
 
-    const Aura  = DaBrush.createRadialGradient(cx,cy,0,cx,cy,300);
-    Aura.addColorStop(0,"rgba(200,0,0,0.4)");
-    Aura.addColorStop(1,"rgba(0,0,0,0)");
-    DaBrush.fillStyle = Aura;
+    const EyeGradient = DaBrush.createRadialGradient(cx,cy,50,cx,cy,300);
+    EyeGradient.addColorStop(0,"rgba(255,0,0,0.2)");
+    EyeGradient.addColorStop(0.5,"rgba(100,0,0,0.1)");
+    EyeGradient.addColorStop(1,"rgba(0,0,0,0)");
+
+    DaBrush.fillStyle = EyeGradient;
     DaBrush.beginPath();
-    DaBrush.arc(cx,cy,300,0,Math.PI*2);
+    DaBrush.ellipse(cx,cy,300,150,0,0,Math.PI*2);
     DaBrush.fill();
-    DaBrush.fillStyle = "rgba(120,0,0,0.9)";
-    DaBrush.beginPath();
-    DaBrush.ellipse(cx,cy,100,40,0,0,Math.PI * 2);
-    DaBrush.fill();
-    DaBrush.shadowBlur = 20;
+
+    const px = cx +Math.cos(angle)*dist;
+    const py =cy +Math.sin(angle)*dist;
+    DaBrush.arc(px,py,60,0,Math.PI*2);
+    DaBrush.fillStyle = "rgba(180,0,0,0.8)";
     DaBrush.shadowColor = "red";
-    DaBrush.fillStyle = "black";
+    DaBrush.shadowBlur = 30;
+    DaBrush.fill();
+
     DaBrush.beginPath();
-    DaBrush.ellipse(cx,cy,10,35,0,0,Math.PI*2);
+    DaBrush.arc(px,py,20,0,Math.PI*2);
+    DaBrush.fillStyle = "black";
+    DaBrush.shadowBlur = 0;
     DaBrush.fill();
     DaBrush.restore();
-
 }
 
-function Creepy(){
-    if (EyePhase ===0){
-        EyeTimer--;
-        if(EyeTimer <= 0) EyePhase = 1;
+
+const McSpeech = ["I see the player you mean.","You are the universe tasting itself.","Wake up.","The universe loves you.","You are the player.","And the game was over and player woke up .",]
+let TextPhase = 0;
+let TextTimer = 400;
+let C = 0;
+
+const TextCanvas = document.createElement("canvas");
+const TextCtx = TextCanvas.getContext("2d", {willReadFrequenttly:true});
+
+
+function Deliver(){
+    if (C>= McSpeech.length) return;
+    const Speech = McSpeech[C];
+    TextCanvas.width = DaQazi.width;
+    TextCanvas.height = DaQazi.height;
+    TextCtx.fillStyle = "black";
+    TextCtx.fillRect(0,0,TextCanvas.width,TextCanvas.height);
+    TextCtx.fillStyle = "white";
+    TextCtx.font = "bold 50px Arial";
+    TextCtx.textbaseline = "middle";
+    text.filltext(Speech, TextCanvas.width/2, TextCanvas.height/2);
+
+    const imgData = TextCtx.getImageData(0,0,TextCanvas,width,TextCanvas.height).data;
+    const textPixels = [];
+    for (let tempy =0;y<TextCanvas.height; y +=4){
+        for (let tempx =0; x <TextCanvas.width; x +=4){
+            const i = (y*TextCanvas.width+x)*4;
+            if (imgData[index] > 128) {
+                textPixels.push({x,y});
+            }
+        }
     }
-    else if (EyePhase === 1){
-        EyeOpacity += 0.003;
-        if (EyeOpacity >= 0.8){EyePhase =2; EyeTimer =300;}
+    allStars.forEach(star =>star.text = false);
+    for (let i = 0; i <textPixels.length;i++) {
+        if (i< allStars.length){
+            allStars[i].tx = textPixels[i].x;
+            allStars[i].ty = textPixels[i].y;
+            allStars[i].text = true;
+        }
     }
-    else if (EyePhase === 2){
-        EyeTimer--;
-        if (EyeTimer <=0) EyePhase = 3;
-    }
-    else if (EyePhase === 3){
-        EyeOpacity -= 0.003;
-        if (EyeOpacity <= 0){EyePhase = 0; EyeTimer = Math.random()*800+400;}
-    }
+    c++;
 }
 
 function Stars(){
@@ -190,45 +259,58 @@ function Stars(){
     DaBrush.fillRect(0,0,DaQazi.width,DaQazi.height);
     DaBrush.fillStyle = Galaxy;
     DaBrush.fillRect(0,0,DaQazi.width, DaQazi.height);
-    Creepy();
-    DrawTheEye();
+    ISeeYou();
+    TheEye();
+    if (TextTimer >0){
+        TextTimer--;
+    } else {
+        Deliver();
+        TextTimer = 300;
+    }
+
+
+
     const cx = DaQazi.width/2;
     const cy = DaQazi.height/2;
-    for (const star of allStars){
+    for (const star of allStars) {
         let Color = star.color;
-        if(EyeOpacity > 0){
+    
+        if (star.Text) {
+
+            star.x += (star.tx - star.x) * 0.05;
+            star.y += (star.ty - star.y) * 0.05;
+        } else {
+
+            star.x += star.vx * star.Depth;
+            star.y += star.vy * star.Depth;
+
+            if (star.x < 0) star.x = DaQazi.width;
+            if (star.x > DaQazi.width) star.x = 0;
+            if (star.y < 0) star.y = DaQazi.height;
+            if (star.y > DaQazi.height) star.y = 0;
+        }
+        if (EyeOpacity > 0 && !star.Text) {
             const dx = cx - star.x;
             const dy = cy - star.y;
-            const distance = Math.sqrt(dx*dx+dy*dy);
+            const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance<500){
-                const F = (500 - distance)/ 500 * EyeOpacity * 0.8;
-                const angle = Math.atan2(dy,dx);
+            if (distance < 500) {
+                const angle = Math.atan2(dy, dx);
+                star.x -= Math.cos(angle) * F * 4;
+                star.y -= Math.sin(angle) * F * 4; 
 
-                star.x += Math.cos(angle +1.2)* F * 4;
-                star.y += Math.sin(angle+1.2) * F *4;
-
-                if (distance <300){
-                    Color = [255,50,50]
+                if (distance < 300) {
+                    Color = [255, 50, 50]; 
                 }
             }
         }
 
-    
-        star.x += star.vx * star.Depth;
-        star.y += star.vy * star.Depth;
-
-        if (star.x < 0) star.x = DaQazi.width;
-        if (star.x > DaQazi.width) star.x = 0;
-        if (star.y < 0) star.y = DaQazi.height;
-        if (star.y > DaQazi.height) star.y = 0;
-
-        const twinkle = (Math.sin(t + star.TwinkyTime) * 0.4 + 0.6)*star.Twinkle* star.Depth;
-        const [r,g,b] = Color;
+        const twinkle = (Math.sin(t + star.TwinkyTime) * 0.4 + 0.6) * star.Twinkle * star.Depth;
+        const [r, g, b] = Color;
+        
         DaBrush.beginPath();
         DaBrush.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-
-        DaBrush.fillStyle = `rgba(${r}, ${g} ,${b} , ${twinkle})`;
+        DaBrush.fillStyle = `rgba(${r}, ${g}, ${b}, ${star.Text ? 1 : twinkle})`; 
         DaBrush.fill();
     }
 
