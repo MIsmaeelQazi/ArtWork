@@ -177,7 +177,7 @@ function TheEye(){
     const cy = DaQazi.height / 2;
     const dx = Mouse[0] - cx;
     const dy = Mouse[1] - cy;
-    const angle = Math.Math.atan2(dy,dx);
+    const angle = Math.atan2(dy,dx);
     const dist = Math.min(Math.sqrt(dx*dx +dy*dy),70);
 
     DaBrush.save();
