@@ -231,7 +231,7 @@ function Deliver(){
     textCtx.font = "bold 50px Arial";
     textCtx.textBaseLine = "middle";
     textCtx.textAlign = "center";
-    text.filltext(Speech, textCanvas.width/2, textCanvas.height/2);
+    textCtx.filltext(Speech, textCanvas.width/2, textCanvas.height/2);
 
     const imgData = textCtx.getImageData(0,0,textCanvas.width,textCanvas.height).data;
     const textPixels = [];
