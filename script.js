@@ -212,32 +212,32 @@ function TheEye(){
 
 
 const McSpeech = ["I see the player you mean.","You are the universe tasting itself.","Wake up.","The universe loves you.","You are the player.","And the game was over and player woke up .",]
-let TextPhase = 0;
-let TextTimer = 400;
+let textPhase = 0;
+let textTimer = 400;
 let C = 0;
 
-const TextCanvas = document.createElement("canvas");
-const TextCtx = TextCanvas.getContext("2d", {willReadFrequently:true});
+const textCanvas = document.createElement("canvas");
+const textCtx = textCanvas.getContext("2d", {willReadFrequently:true});
 
 
 function Deliver(){
     if (C>= McSpeech.length) return;
     const Speech = McSpeech[C];
-    TextCanvas.width = DaQazi.width;
-    TextCanvas.height = DaQazi.height;
-    TextCtx.fillStyle = "black";
-    TextCtx.fillRect(0,0,TextCanvas.width,TextCanvas.height);
-    TextCtx.fillStyle = "white";
-    TextCtx.font = "bold 50px Arial";
-    TextCtx.textBaseLine = "middle";
-    TextCtx.textAlign = "center";
-    text.fillText(Speech, TextCanvas.width/2, TextCanvas.height/2);
+    textCanvas.width = DaQazi.width;
+    textCanvas.height = DaQazi.height;
+    textCtx.fillStyle = "black";
+    textCtx.fillRect(0,0,textCanvas.width,textCanvas.height);
+    textCtx.fillStyle = "white";
+    textCtx.font = "bold 50px Arial";
+    textCtx.textBaseLine = "middle";
+    textCtx.textAlign = "center";
+    text.filltext(Speech, textCanvas.width/2, textCanvas.height/2);
 
-    const imgData = TextCtx.getImageData(0,0,TextCanvas.width,TextCanvas.height).data;
+    const imgData = textCtx.getImageData(0,0,textCanvas.width,textCanvas.height).data;
     const textPixels = [];
-    for (let tempy =0;tempy<TextCanvas.height; tempy +=4){
-        for (let tempx =0; tempx <TextCanvas.width; tempx +=4){
-            const i = (tempy*TextCanvas.width+tempx)*4;
+    for (let tempy =0;tempy<textCanvas.height; tempy +=4){
+        for (let tempx =0; tempx <textCanvas.width; tempx +=4){
+            const i = (tempy*textCanvas.width+tempx)*4;
             if (imgData[i] > 128) {
                 textPixels.push({tempx,tempy});
             }
@@ -263,11 +263,11 @@ function Stars(){
     DaBrush.fillRect(0,0,DaQazi.width, DaQazi.height);
     ISeeYou();
     TheEye();
-    if (TextTimer >0){
-        TextTimer--;
+    if (textTimer >0){
+        textTimer--;
     } else {
         Deliver();
-        TextTimer = 300;
+        textTimer = 300;
     }
 
 
@@ -277,7 +277,7 @@ function Stars(){
     for (const star of allStars) {
         let Color = star.color;
     
-        if (star.Text) {
+        if (star.text) {
 
             star.x += (star.tx - star.x) * 0.05;
             star.y += (star.ty - star.y) * 0.05;
@@ -291,7 +291,7 @@ function Stars(){
             if (star.y < 0) star.y = DaQazi.height;
             if (star.y > DaQazi.height) star.y = 0;
         }
-        if (EyeOpacity > 0 && !star.Text) {
+        if (EyeOpacity > 0 && !star.text) {
             const dx = cx - star.x;
             const dy = cy - star.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
@@ -312,7 +312,7 @@ function Stars(){
         
         DaBrush.beginPath();
         DaBrush.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        DaBrush.fillStyle = `rgba(${r}, ${g}, ${b}, ${star.Text ? 1 : twinkle})`; 
+        DaBrush.fillStyle = `rgba(${r}, ${g}, ${b}, ${star.text ? 1 : twinkle})`; 
         DaBrush.fill();
     }
 
