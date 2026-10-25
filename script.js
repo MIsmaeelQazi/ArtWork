@@ -229,9 +229,9 @@ function Deliver(){
     textCtx.fillRect(0,0,textCanvas.width,textCanvas.height);
     textCtx.fillStyle = "white";
     textCtx.font = "bold 50px Arial";
-    textCtx.textBaseLine = "middle";
+    textCtx.textBaseline = "middle";
     textCtx.textAlign = "center";
-    textCtx.filltext(Speech, textCanvas.width/2, textCanvas.height/2);
+    textCtx.fillText(Speech, textCanvas.width/2, textCanvas.height/2);
 
     const imgData = textCtx.getImageData(0,0,textCanvas.width,textCanvas.height).data;
     const textPixels = [];
@@ -246,8 +246,8 @@ function Deliver(){
     allStars.forEach(star =>star.text = false);
     for (let i = 0; i <textPixels.length;i++) {
         if (i< allStars.length){
-            allStars[i].tx = textPixels[i].x;
-            allStars[i].ty = textPixels[i].y;
+            allStars[i].tx = textPixels[i].tempx;
+            allStars[i].ty = textPixels[i].tempy;
             allStars[i].text = true;
         }
     }
