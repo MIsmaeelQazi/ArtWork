@@ -147,7 +147,6 @@ let EyeState = 0;
 let EyeTimer = 0;
 let F =0;
 function ISeeYou(){
-    if (CanShow){
     if (EyeState ===0 && Math.random()< 0.003){
         EyeState = 1;
     }
@@ -171,7 +170,7 @@ function ISeeYou(){
         }
         F = EyeOpacity;
 }
-}
+
 
 function TheEye() {
     if (EyeOpacity <= 0) return;
@@ -291,43 +290,6 @@ function RenderSpeech() {
     DaBrush.fillText(textToDraw, textX, textY);
 
     DaBrush.restore();
-}
-
-function Deliver(){
-    if (C>= McSpeech.length){ 
-        CanShow = false;
-        return; 
-    }
-    const Speech = McSpeech[C];
-    textCanvas.width = DaQazi.width;
-    textCanvas.height = DaQazi.height;
-    textCtx.fillStyle = "black";
-    textCtx.fillRect(0,0,textCanvas.width,textCanvas.height);
-    textCtx.fillStyle = "white";
-    textCtx.font = "bold 60px Arial";
-    textCtx.textBaseline = "middle";
-    textCtx.textAlign = "center";
-    textCtx.fillText(Speech, textCanvas.width/2, textCanvas.height/2);
-
-    const imgData = textCtx.getImageData(0,0,textCanvas.width,textCanvas.height).data;
-    const textPixels = [];
-    for (let tempy =0;tempy<textCanvas.height; tempy +=4){
-        for (let tempx =0; tempx <textCanvas.width; tempx +=4){
-            const i = (tempy*textCanvas.width+tempx)*4;
-            if (imgData[i] > 128) {
-                textPixels.push({tempx,tempy});
-            }
-        }
-    }
-    allStars.forEach(star =>star.text = false);
-    for (let i = 0; i <textPixels.length;i++) {
-        if (i< allStars.length){
-            allStars[i].tx = textPixels[i].tempx;
-            allStars[i].ty = textPixels[i].tempy;
-            allStars[i].text = true;
-        }
-    }
-    C++;
 }
 
 function Stars(){
