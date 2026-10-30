@@ -303,14 +303,6 @@ function Stars(){
     TheEye();
     UpdateSpeech();
     RenderSpeech();
-    if (textTimer >0){
-        textTimer--;
-        if (textTimer < 50) CanShow = false;
-    } else {
-        Deliver();
-        textTimer = 300;
-    }
-
 
 
     const cx = DaQazi.width/2;
