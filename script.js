@@ -233,7 +233,7 @@ function TheEye() {
     DaBrush.restore(); 
     DaBrush.restore(); 
 
-
+}
 const McSpeech = ["I see the player you mean.","You are the universe tasting itself.","Wake up.","The universe loves you.","You are the player.","And the game was over and player woke up .",]
 let textPhase = 0;
 let textTimer = 200;
