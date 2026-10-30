@@ -1,5 +1,5 @@
 const DaQazi = document.getElementById("CanvasWorthyOfMe")
-const DaBrush = DaQazi.getContext("2d",{ willReadFrequenttly:true});
+const DaBrush = DaQazi.getContext("2d",{ willReadFrequently:true});
 let Sky, Galaxy;
 
 const Mouse =[window.innerWidth/2,window.innerHeight/2];
@@ -146,7 +146,9 @@ let EyeOpacity = 0;
 let EyeState = 0;
 let EyeTimer = 0;
 let F =0;
+let CanShow = false;
 function ISeeYou(){
+    if (CanShow){
     if (EyeState ===0 && Math.random()< 0.003){
         EyeState = 1;
     }
@@ -170,50 +172,71 @@ function ISeeYou(){
         }
         F = EyeOpacity;
 }
+}
 
-function TheEye(){
-    if (EyeOpacity <=0) return;
-    const cx = DaQazi.width/2;
+function TheEye() {
+    if (EyeOpacity <= 0) return;
+    const cx = DaQazi.width / 2;
     const cy = DaQazi.height / 2;
     const dx = Mouse[0] - cx;
     const dy = Mouse[1] - cy;
-    const angle = Math.atan2(dy,dx);
-    const dist = Math.min(Math.sqrt(dx*dx +dy*dy),70);
+    const angle = Math.atan2(dy, dx);
+    const dist = Math.min(Math.sqrt(dx * dx + dy * dy), 40);
 
     DaBrush.save();
-    DaBrush.globalAlpha = EyeOpacity;
+    DaBrush.globalAlpha = EyeOpacity * 0.85;
 
-    const EyeGradient = DaBrush.createRadialGradient(cx,cy,50,cx,cy,300);
-    EyeGradient.addColorStop(0,"rgba(255,0,0,0.2)");
-    EyeGradient.addColorStop(0.5,"rgba(100,0,0,0.1)");
-    EyeGradient.addColorStop(1,"rgba(0,0,0,0)");
+    const eyeWidth = 260;
+    const eyeHeight = 65;
+
+    const EyeGradient = DaBrush.createRadialGradient(cx, cy, 20, cx, cy, 220);
+    EyeGradient.addColorStop(0, "rgba(255,0,0,0.3)");
+    EyeGradient.addColorStop(0.5, "rgba(120,0,0,0.15)");
+    EyeGradient.addColorStop(1, "rgba(0,0,0,0)");
 
     DaBrush.fillStyle = EyeGradient;
     DaBrush.beginPath();
-    DaBrush.ellipse(cx,cy,300,150,0,0,Math.PI*2);
+    DaBrush.arc(cx, cy, 220, 0, Math.PI * 2);
     DaBrush.fill();
 
-    const px = cx +Math.cos(angle)*dist;
-    const py =cy +Math.sin(angle)*dist;
     DaBrush.beginPath();
-    DaBrush.arc(px,py,60,0,Math.PI*2);
-    DaBrush.fillStyle = "rgba(180,0,0,0.8)";
+    DaBrush.moveTo(cx - eyeWidth, cy);
+    DaBrush.quadraticCurveTo(cx, cy - eyeHeight * 1.3, cx + eyeWidth, cy - 10);
+    DaBrush.quadraticCurveTo(cx, cy + eyeHeight * 0.9, cx - eyeWidth, cy);
+    DaBrush.closePath();
+
+    DaBrush.strokeStyle = "rgba(220, 20, 20, 0.9)";
+    DaBrush.lineWidth = 3;
     DaBrush.shadowColor = "red";
-    DaBrush.shadowBlur = 30;
-    DaBrush.fill();
+    DaBrush.shadowBlur = 20;
+    DaBrush.stroke();
 
+    DaBrush.fillStyle = "rgba(15, 0, 0, 0.6)";
+    DaBrush.fill();
+    const px = cx + Math.cos(angle) * dist;
+    const py = cy + Math.sin(angle) * dist * 0.3;
+
+    DaBrush.save();
+    DaBrush.clip(); 
     DaBrush.beginPath();
-    DaBrush.arc(px,py,20,0,Math.PI*2);
+    DaBrush.arc(px, py, 35, 0, Math.PI * 2);
+    DaBrush.fillStyle = "rgba(200, 0, 0, 0.9)";
+    DaBrush.shadowColor = "#ff3333";
+    DaBrush.shadowBlur = 15;
+    DaBrush.fill();
+    DaBrush.beginPath();
+    DaBrush.ellipse(px, py, 5, 28, 0, 0, Math.PI * 2);
     DaBrush.fillStyle = "black";
     DaBrush.shadowBlur = 0;
     DaBrush.fill();
-    DaBrush.restore();
-}
+
+    DaBrush.restore(); 
+    DaBrush.restore(); 
 
 
 const McSpeech = ["I see the player you mean.","You are the universe tasting itself.","Wake up.","The universe loves you.","You are the player.","And the game was over and player woke up .",]
 let textPhase = 0;
-let textTimer = 400;
+let textTimer = 200;
 let C = 0;
 
 const textCanvas = document.createElement("canvas");
@@ -221,14 +244,17 @@ const textCtx = textCanvas.getContext("2d", {willReadFrequently:true});
 
 
 function Deliver(){
-    if (C>= McSpeech.length) return;
+    if (C>= McSpeech.length){ 
+        CanShow = false;
+        return; 
+    }
     const Speech = McSpeech[C];
     textCanvas.width = DaQazi.width;
     textCanvas.height = DaQazi.height;
     textCtx.fillStyle = "black";
     textCtx.fillRect(0,0,textCanvas.width,textCanvas.height);
     textCtx.fillStyle = "white";
-    textCtx.font = "bold 50px Arial";
+    textCtx.font = "bold 60px Arial";
     textCtx.textBaseline = "middle";
     textCtx.textAlign = "center";
     textCtx.fillText(Speech, textCanvas.width/2, textCanvas.height/2);
@@ -265,6 +291,7 @@ function Stars(){
     TheEye();
     if (textTimer >0){
         textTimer--;
+        if (textTimer < 50) CanShow = false;
     } else {
         Deliver();
         textTimer = 300;
