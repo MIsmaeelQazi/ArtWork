@@ -146,7 +146,6 @@ let EyeOpacity = 0;
 let EyeState = 0;
 let EyeTimer = 0;
 let F =0;
-let CanShow = false;
 function ISeeYou(){
     if (CanShow){
     if (EyeState ===0 && Math.random()< 0.003){
@@ -235,13 +234,64 @@ function TheEye() {
 
 }
 const McSpeech = ["I see the player you mean.","You are the universe tasting itself.","Wake up.","The universe loves you.","You are the player.","And the game was over and player woke up .",]
-let textPhase = 0;
-let textTimer = 200;
-let C = 0;
+let speechIndex = 0;
+let currentCharIndex = 0;
+let currentTypedText = "";
+let isTyping = false;
+let speechDelay = 180;
+let typeTimer = 0;
 
-const textCanvas = document.createElement("canvas");
-const textCtx = textCanvas.getContext("2d", {willReadFrequently:true});
+// MODIFICATION: Replaced Deliver() pixel-mapping with direct string-typing logic
+function UpdateSpeech() {
+    if (speechIndex >= McSpeech.length) return;
 
+    if (!isTyping) {
+        speechDelay--;
+        if (speechDelay <= 0) {
+            isTyping = true;
+            currentCharIndex = 0;
+            currentTypedText = "";
+        }
+    } else {
+        typeTimer--;
+        if (typeTimer <= 0) {
+            const fullText = McSpeech[speechIndex];
+            if (currentCharIndex < fullText.length) {
+                currentTypedText += fullText[currentCharIndex];
+                currentCharIndex++;
+                // Randomized character typing timing delay
+                typeTimer = Math.floor(Math.random() * 3) + 1;
+            } else {
+                isTyping = false;
+                speechIndex++;
+                speechDelay = 220; // Time text stays visible before moving to next line
+            }
+        }
+    }
+}
+
+// ADDED: Direct vector text drawing on main canvas with blinking cursor
+function RenderSpeech() {
+    if (!currentTypedText) return;
+
+    DaBrush.save();
+    DaBrush.font = "italic bold 32px 'Georgia', serif";
+    DaBrush.textAlign = "center";
+    DaBrush.textBaseline = "middle";
+
+    const textX = DaQazi.width / 2;
+    const textY = DaQazi.height * 0.85; // Cleanly positioned below the eye
+
+    const showCursor = isTyping && Math.floor(Date.now() / 300) % 2 === 0;
+    const textToDraw = currentTypedText + (showCursor ? "_" : "");
+
+    DaBrush.shadowColor = "rgba(0,0,0,0.95)";
+    DaBrush.shadowBlur = 12;
+    DaBrush.fillStyle = "rgba(255, 255, 255, 0.95)";
+    DaBrush.fillText(textToDraw, textX, textY);
+
+    DaBrush.restore();
+}
 
 function Deliver(){
     if (C>= McSpeech.length){ 
@@ -289,6 +339,8 @@ function Stars(){
     DaBrush.fillRect(0,0,DaQazi.width, DaQazi.height);
     ISeeYou();
     TheEye();
+    UpdateSpeech();
+    RenderSpeech();
     if (textTimer >0){
         textTimer--;
         if (textTimer < 50) CanShow = false;
@@ -304,32 +356,26 @@ function Stars(){
     for (const star of allStars) {
         let Color = star.color;
     
-        if (star.text) {
+        star.x += star.vx * star.Depth;
+        star.y += star.vy * star.Depth;
 
-            star.x += (star.tx - star.x) * 0.05;
-            star.y += (star.ty - star.y) * 0.05;
-        } else {
+        if (star.x < 0) star.x = DaQazi.width;
+        if (star.x > DaQazi.width) star.x = 0;
+        if (star.y < 0) star.y = DaQazi.height;
+        if (star.y > DaQazi.height) star.y = 0;
 
-            star.x += star.vx * star.Depth;
-            star.y += star.vy * star.Depth;
-
-            if (star.x < 0) star.x = DaQazi.width;
-            if (star.x > DaQazi.width) star.x = 0;
-            if (star.y < 0) star.y = DaQazi.height;
-            if (star.y > DaQazi.height) star.y = 0;
-        }
-        if (EyeOpacity > 0 && !star.text) {
+        if (EyeOpacity > 0) {
             const dx = cx - star.x;
             const dy = cy - star.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < 500) {
+            if (distance < 450) {
                 const angle = Math.atan2(dy, dx);
-                star.x -= Math.cos(angle) * F * 4;
-                star.y -= Math.sin(angle) * F * 4; 
+                star.x -= Math.cos(angle) * F * 3;
+                star.y -= Math.sin(angle) * F * 3;
 
-                if (distance < 300) {
-                    Color = [255, 50, 50]; 
+                if (distance < 250) {
+                    Color = [255, 60, 60];
                 }
             }
         }
@@ -339,7 +385,7 @@ function Stars(){
         
         DaBrush.beginPath();
         DaBrush.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        DaBrush.fillStyle = `rgba(${r}, ${g}, ${b}, ${star.text ? 1 : twinkle})`; 
+        DaBrush.fillStyle = `rgba(${r}, ${g}, ${b}, ${twinkle})`; 
         DaBrush.fill();
     }
 
